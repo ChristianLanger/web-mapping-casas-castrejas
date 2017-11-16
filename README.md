@@ -1,4 +1,4 @@
-## Web mapping tool
+# Web mapping tool
 
 Interactive web map to display information for the villages in Castrejas region in Portugal.
 
