@@ -2,6 +2,8 @@
 
 Interactive web map to display information for the villages in Castrejas region in Portugal.
 
+![Screenshot](http://home.uni-leipzig.de/idiv/casas-castrejas/screen.png)
+
 ### Built With
 
 * [Leaflet JS](http://leafletjs.com/) - Leaflet JS
@@ -10,4 +12,4 @@ Interactive web map to display information for the villages in Castrejas region 
 
 ### Demo
 
-See a working example here: [http://home.uni-leipzig.de/idiv/casas-castrejas](http://home.uni-leipzig.de/idiv/casas-castrejas){:target="_blank"}
+See a working example here: [http://home.uni-leipzig.de/idiv/casas-castrejas](http://home.uni-leipzig.de/idiv/casas-castrejas)
