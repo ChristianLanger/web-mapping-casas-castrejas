@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags must come first in the head; any other head content must come after these tags -->
+    <meta name="description" content="Bolsa de Casas Castrejas">
+    <meta name="author" content="Christian Langer">
+    <link rel="icon" href="">
+
+    <title>Bolsa de Casas Castrejas</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="./css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./css/carousel.css" rel="stylesheet">
+
+    <!-- Leaflet CSS -->
+    <link  href="./vendor/leaflet/css/leaflet.css" rel="stylesheet">
+    <!-- Leaflet JS -->
+    <script src="./vendor/leaflet/js/leaflet.js"></script>
+    
+    <!-- Villages JS -->
+    <script src="./villages/village.js"></script>
+
+    <!-- Fonts -->
+    <link href="./vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="./vendor/awesome-markers/leaflet.awesome-markers.css" rel="stylesheet">
+    <script src="./vendor/awesome-markers/leaflet.awesome-markers.js"></script>
+
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+
+<script>
+
+      var map;
+      var basemap;
+      
+
+  function init() {
+
+      map = L.map('map', {
+      }).setView([41.996440, -8.166501], 14);
+      
+      basemap = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+        id: 'christianlanger.lin45e75',
+        accessToken: 'pk.eyJ1IjoiY2hyaXN0aWFubGFuZ2VyIiwiYSI6InJOMFAxS00ifQ.tt_H4EfT3ccRSPrkD0KKRQ'
+      }).addTo(map);
+
+      var villages;
+      var selection;
+      var selectedLayer;
+      
+
+      // create village icons
+      var villageIcon = L.AwesomeMarkers.icon({
+        icon: 'home', 
+        markerColor: 'orange', 
+        prefix: 'fa', 
+        iconColor: 'black'
+      });
+
+      var villageSelected = L.AwesomeMarkers.icon({
+        icon: 'home', 
+        markerColor: 'blue', 
+        prefix: 'fa', 
+        iconColor: 'white'
+      });
+          
+      // add the village GeoJSON layer
+      villages = L.geoJson(villageData,{
+        pointToLayer: function (feature, latlng) {
+          return L.marker(latlng, {icon: villageIcon});
+        },
+        onEachFeature: villagesOnEachFeature
+        });
+      villages.addTo(map);
+
+
+      // define function to handle click events on village features
+      function villagesOnEachFeature(feature, layer){
+        layer.on({
+          click: function(e) {
+
+            // reset symbol of old selection
+            if (selection) {
+              if (selectedLayer === villages) {
+                selection.setIcon(villageIcon)
+              };
+            }
+              
+            // apply blue icon to selected village
+            e.target.setIcon(villageSelected);
+            // update selection variables
+            selection = e.target;
+            selectedLayer = villages;
+            
+              
+            // construct HTML 
+            var city = feature.properties.CITY;
+            var country = feature.properties.COUNTRY;
+            var description = feature.properties.DESCRIPTION;
+            var CF = feature.properties.CF;
+            var HP = feature.properties.HP;
+            var TER = feature.properties.TER;
+            var AL = feature.properties.AL;
+            var details = '<p><b>Casa de Ferias:</b> ' + CF + '<br>' + '<b>Habitação Permanente:</b> ' + HP + '<br>' + '<b>Turismo em Espaço Rural:</b> ' + TER + '<br>' + '<b>Alojamento Local:</b> ' + AL + '</p>';
+            var readMore = feature.properties.MORE;
+            
+            var i;
+            var image = '';
+            // var slideNbr = 0;
+            
+            for (i = 0; i < feature.properties.IMAGE.length; i++) {
+              //slideNbr = slideNbr + i;
+              if (i == 0){
+                image += '<div class="active item" data-slide-number='+i+'><img src="img/villages/' + feature.properties.IMAGE[i] + '" alt="Image of ' + city + '"></div>'
+              } else {
+                image += '<div class="item" data-slide-number='+i+'><img src="img/villages/' + feature.properties.IMAGE[i] + '" alt="Image of ' + city + '"></div>'
+              }
+            };
+
+            // preposition function
+            function preposition(x) {
+              if (x =="Barreiro") {
+                return "do ";
+              } else if (x == "Entalada" || x == "Alagoa"){
+                return " ";
+              } else { return "de "}
+            };
+
+            document.getElementById('villageTitle').innerHTML = '<div class="animated slideInDown"><h2>' + 'Inverneira ' + preposition(city) + city + '</h2></div>';
+            document.getElementById('villageImage').innerHTML = '<div class="carousel slide animated slideInLeft" id="myCarousel"><div class="carousel-inner">' + image + '</div><a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a><a class="right carousel-control" href="#myCarousel" role="button" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a></div>';
+            document.getElementById('villageDescription').innerHTML = '<div class="animated slideInRight"><h3 class="my-3">Descrição da aldeia</h3><p><span class="fa fa-map-marker"></span> ' + city + ', ' + country + '</p><p>' + description + '</p></div>';
+            document.getElementById('villageDetails').innerHTML = '<div class="animated slideInRight">' + details + '</div>';
+            document.getElementById('villageMore').innerHTML = '<div class="animated slideInRight"><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#more">Leia mais</button><div id="more" class="collapse">' + readMore + '</div></div>';
+            
+            L.DomEvent.stopPropagation(e); // stop click event from being propagated further
+          }
+        });
+      };
+          
+      // define and register event handler for click events to unselect features when clicked anywhere else on the map
+      map.addEventListener('click', function(e) {
+        if (selection) {
+          if (selectedLayer === villages) {
+            selection.setIcon(villageIcon);
+          }
+
+          selection = null;
+
+          document.getElementById('villageTitle').innerHTML = '<h2 class="animated slideInDown">Bolsa de Casas Castrejas</h2>';
+          document.getElementById('villageImage').innerHTML = '<img class="animated slideInLeft" src="./img/casa.png" width="550px">';
+          document.getElementById('villageDescription').innerHTML = '<div class="animated slideInRight"><p>Aqui pode encontrar os imovéis disponíveis para venda no vale das Inverneiras de Castro Laboreiro em pleno Parque Nacional.<br>Para mais informações por favor contactar os respectivos proprietários.</p><p>Selecione uma aldeia no mapa para obter informações mais detalhadas.</p></div>';
+          document.getElementById('villageDetails').innerHTML = '';
+          document.getElementById('villageMore').innerHTML = '';
+          
+        }
+      });
+  };
+    </script>
+  </head>
+
+  <body onload="init()">
+    <div id="map"></div>
+
+    <div class="container" id="village-content">
+      <div id="villageTitle" class="animated slideInDown">
+        <h2>Bolsa de Casas Castrejas</h2>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-lg-6 col-md-7">
+          <div id="villageImage">
+            <img src="./img/casa.png" width="550px">
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-5">
+          <div id="villageDescription">
+            <p>Aqui pode encontrar os imovéis disponíveis para venda no vale das Inverneiras de Castro Laboreiro em pleno Parque Nacional. Para mais informações por favor contactar os respectivos proprietários.</p>
+            <p>Selecione uma aldeia no mapa para obter informações mais detalhadas.</p>
+          </div>
+          <div id="villageDetails"></div>
+          <div id="villageMore"></div>
+          <div id="thumbModal" class="modal">
+            <span class="close">&times;</span>
+            <img class="modal-content" id="imgThumbnail">
+            <div id="caption"></div>
+          </div> 
+          <script>
+            function showImage(){
+              var modal = document.getElementById('thumbModal');
+              // Get the image and insert it inside the modal - use its "alt" text as a caption
+              var img = document.getElementById("thumbImg");
+              var modalImg = document.getElementById("imgThumbnail");
+              var captionText = document.getElementById("caption");
+              modal.style.display = "block";
+              modalImg.src = img.src;
+              captionText.innerHTML = img.alt;
+              // Get the <span> element that closes the modal
+              var span = document.getElementsByClassName("close")[0];
+              // When the user clicks on <span> (x), close the modal
+              span.onclick = function() { 
+                modal.style.display = "none";
+              }
+            };
+          </script>
+        </div>
+      </div><!-- /.row -->
+    </div><!-- /.container -->
+
+    <div class="container">
+      <hr class="featurette-divider">
+      <footer>
+        <div class="row">
+          <div class="col-lg-12">Copyright © 2017
+            <script>new Date().getFullYear()>2017&&document.write(" - "+new Date().getFullYear());</script> 
+            Bolsa de Casas Castrejas · <a href="mailto:minescabral@gmail.com" target="_blank">Contacto</a>
+          </div>
+        </div>
+      </footer>
+    </div><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="./vendor/jquery/jquery.min.js"></script>
+    <script src="./vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="./js/ie10-viewport-bug-workaround.js"></script>
+  
+  </body>
+</html>
