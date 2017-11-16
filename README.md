@@ -10,4 +10,4 @@ Interactive web map to display information for the villages in Castrejas region 
 
 ### Demo
 
-See a working example here: [http://home.uni-leipzig.de/idiv/casas-castrejas](http://home.uni-leipzig.de/idiv/casas-castrejas)
+See a working example here: [http://home.uni-leipzig.de/idiv/casas-castrejas](http://home.uni-leipzig.de/idiv/casas-castrejas){:target="_blank"}
