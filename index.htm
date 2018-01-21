@@ -6,11 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags must come first in the head; any other head content must come after these tags -->
-    <meta name="description" content="Bolsa de Casas Castrejas">
+    <meta name="description" content="Winter villages in the valley of Castro Laboreiro">
     <meta name="author" content="Christian Langer">
     <link rel="icon" href="">
 
-    <title>Bolsa de Casas Castrejas</title>
+    <title>Winter villages in the valley of Castro Laboreiro</title>
 
     <!-- Bootstrap core CSS -->
     <link href="./vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -34,8 +34,12 @@
     <link href="./vendor/awesome-markers/leaflet.awesome-markers.css" rel="stylesheet">
     <script src="./vendor/awesome-markers/leaflet.awesome-markers.js"></script>
 
+    <!-- Flags -->
+    <link href="./css/flag-icon.min.css" rel="stylesheet">
+
     <!-- Animate CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+
 
 <script>
 
@@ -105,12 +109,18 @@
             // construct HTML 
             var city = feature.properties.CITY;
             var country = feature.properties.COUNTRY;
-            var description = feature.properties.DESCRIPTION;
+
+            var description_p = feature.properties.DESCRIPTION_P;
+            var description_en = feature.properties.DESCRIPTION_EN;
+
             var CF = feature.properties.CF;
             var HP = feature.properties.HP;
             var TER = feature.properties.TER;
             var AL = feature.properties.AL;
-            var details = '<p><b>Casa de Ferias:</b> ' + CF + '<br>' + '<b>Habitação Permanente:</b> ' + HP + '<br>' + '<b>Turismo em Espaço Rural:</b> ' + TER + '<br>' + '<b>Alojamento Local:</b> ' + AL + '</p>';
+
+            var details_en = '<p><b>Summer residence:</b> ' + CF + '<br>' + '<b>Inhabited residence:</b> ' + HP + '<br>' + '<b>Commercial lodging:</b> ' + TER + '<br>' + '<b>Private lodging:</b> ' + AL + '</p>';
+            var details_p = '<p><b>Casa de Ferias:</b> ' + CF + '<br>' + '<b>Habitação Permanente:</b> ' + HP + '<br>' + '<b>Turismo em Espaço Rural:</b> ' + TER + '<br>' + '<b>Alojamento Local:</b> ' + AL + '</p>';
+
             var readMore = feature.properties.MORE;
             
             var i;
@@ -126,7 +136,7 @@
               }
             };
 
-            // preposition function
+            // preposition function for title
             function preposition(x) {
               if (x =="Barreiro") {
                 return "do ";
@@ -135,11 +145,19 @@
               } else { return "de "}
             };
 
-            document.getElementById('villageTitle').innerHTML = '<div class="animated slideInDown"><h2>' + 'Inverneira ' + preposition(city) + city + '</h2></div>';
+            // english text
+             
+             document.getElementById('villageTitle').innerHTML = '<div class="animated slideInDown"><h2>' + 'Inverneira ' + preposition(city) + city + '<span onclick="flip()" style="cursor:pointer" class="pull-right flag-icon flag-icon-pt"></span></h2></div>'; 
+            
             document.getElementById('villageImage').innerHTML = '<div class="carousel slide animated slideInLeft" id="myCarousel"><div class="carousel-inner">' + image + '</div><a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a><a class="right carousel-control" href="#myCarousel" role="button" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a></div>';
-            document.getElementById('villageDescription').innerHTML = '<div class="animated slideInRight"><h3 class="my-3">Descrição da aldeia</h3><p><span class="fa fa-map-marker"></span> ' + city + ', ' + country + '</p><p>' + description + '</p></div>';
-            document.getElementById('villageDetails').innerHTML = '<div class="animated slideInRight">' + details + '</div>';
-            document.getElementById('villageMore').innerHTML = '<div class="animated slideInRight"><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#more">Leia mais</button><div id="more" class="collapse">' + readMore + '</div></div>';
+
+            document.getElementById('villageDescription_en').innerHTML = '<div class="animated slideInRight"><h3 class="my-3">Description</h3><p><span class="fa fa-map-marker"></span> ' + city + ', ' + country + '</p><p>' + description_en + '</p></div>';
+            document.getElementById('villageDescription_p').innerHTML = '<div class="animated slideInRight"><h3 class="my-3">Descrição</h3><p><span class="fa fa-map-marker"></span> ' + city + ', ' + country + '</p><p>' + description_p + '</p></div>';
+
+            document.getElementById('villageDetails_en').innerHTML = '<div class="animated slideInRight">' + details_en + '</div>';
+            document.getElementById('villageDetails_p').innerHTML = '<div class="animated slideInRight">' + details_p + '</div>';
+
+            document.getElementById('villageMore').innerHTML = '<div class="animated slideInRight"><button type="button" class="btn btn-info" data-toggle="collapse" data-target="#more">Houses for sale / casas a venda</button><div id="more" class="collapse">' + readMore + '</div></div>';
             
             L.DomEvent.stopPropagation(e); // stop click event from being propagated further
           }
@@ -155,10 +173,16 @@
 
           selection = null;
 
-          document.getElementById('villageTitle').innerHTML = '<h2 class="animated slideInDown">Bolsa de Casas Castrejas</h2>';
-          document.getElementById('villageImage').innerHTML = '<img class="animated slideInLeft" src="./img/casa.png" width="550px">';
-          document.getElementById('villageDescription').innerHTML = '<div class="animated slideInRight"><p>Aqui pode encontrar os imovéis disponíveis para venda no vale das Inverneiras de Castro Laboreiro em pleno Parque Nacional.<br>Para mais informações por favor contactar os respectivos proprietários.</p><p>Selecione uma aldeia no mapa para obter informações mais detalhadas.</p></div>';
-          document.getElementById('villageDetails').innerHTML = '';
+          document.getElementById('villageTitle').innerHTML = '<h2 class="animated slideInDown">Winter villages in the valley of Castro Laboreiro</h2>';
+          document.getElementById('villageImage').innerHTML = '<div class="animated slideInLeft"><h3>The Peneda Region</h3><p>The Sierra of Peneda is part of the National Park of Peneda Geres and its valley of Laboreiro is one of the best preserved areas within the park, due to the region longtime depopulation trend. In fact its dense oakforests have been regenerating bringing benefits to the local biodiversity. Among the threatened species of the region, one can observe the wolf, the deer, the garrano endemic wildhorse, the viper, the eagle and kites. The region hosts some of the prettiest lagoons of the park, and the impressive Castle of Castro Laboreiro. In the plateau of Castro Laboreiro one can find 60 Mamoas or dolmens, which is the largest megalithic monument in the Iberian Peninsula.</p><p>For several years the Castro people have adapted to local conditions by embracing a transhumant livelihood. In the past shepherds spent their Summertime in highest ground for the greener pastures, while in the Wintertime they were forced to move their cattle to lower grounds along the Laboreiro river valley to avoid the long snowy winters. Therefore the Castro people built houses in both sites. This is the reason for the 3 different types of villages found in the region: the summer villages or Brandas; the winter villages or Inverneiras and the all year long villages or «lugar fixo» such as the town of Castro Laboreiro. Since there are now fewer shepherds in the region due to people´s aging (emigration has also played a role) and climate change has caused fewer snowy winters, people chose to live permanently in their summer villages, thus the winter villages are now uninhabited.</p><p>As grazing has decreased in the winter valley, nature has regenerated itself, around the 20 winter villages found in the valley. In the last 10 years, houses in these villages are being rebuilt for tourism. This database is a tool developed under the project Reviving the Castro Valley winter villages. More information on <a href="http://www.casaecarvalhal.blogspot.com" target="_blank">casaecarvalhal.blogspot.com</a>.</p><img src="./img/casa.png" alt="drawing casas castrejas" width="500px"><p>Select a marker on the map to get more detailed information about the villages in the valley of Castro Laboreiro and see which houses are available for sale.</p><p>For more information about the houses for sale, please see the individual contact details.</p></div>';
+          
+          document.getElementById('villageDescription_en').innerHTML = '<div class="animated slideInRight"><h3>A região da serra da Peneda</h3><p>A Serra da Peneda faz parte do Parque Nacional da Peneda-Gerês e é uma das áreas mais bem conservadas de todo o Parque. Na região de Castro Laboreiro, devido ao despovoamento da região, os densos carvalhais têm regenerado, contribuindo positivamente para a biodiversidade. Entre as espécies ameaçadas da região contam-se o lobo, o corço, a víbora, a águia-real, tartaranhões e garranos. A região está igualmente dotada de inúmeras lagoas naturais, assim como património construído de elevado interesse como é o caso do Castelo de Castro Laboreiro e de um conjunto megalítico no planalto de Castro que conta com mais de 60 Mamoas (antas), sendo o maior grupo deste tipo conhecido na Peninsula Ibérica.</p><p>Durante muitos anos na região castreja, persistiu um regime de transumância em que os pastores viviam nas regiões mais altas durante a estação do Verão em busca de pastos mais verdes para o seu gado, mudando-se durante o Inverno para as aldeias do vale do Rio Laboreiro para fugir aos longos nevões das zonas mais altas. Desta forma existem na região 3 tipos de aldeia: as aldeias de Verão ou Brandas, as aldeias de Inverno ou Inverneiras e os lugares fixos. Recentemente tem-se assistido ao abandono da pastorícia e também das Inverneiras, em parte devido às alterações climáticas e ao envelhecimento da população.</p><p>O abandono agrícola tem proporcionado a regeneração natural do Vale de Castro Laboreiro onde se localizam  20 aldeias inabitadas. Nos últimos 10 anos as habitações dessas aldeias têm sido alvo de recuperação para turismo.  Esta Bolsa de Casas Castrejas faz parte do projecto Reabilitar o Vale de Castro Laboreiro <a href="http://www.casaecarvalhal.blogspot.com" target="_blank">casaecarvalhal.blogspot.com</a></p><p>Selecione um marcador no mapa para obter informações mais detalhadas sobre as aldeias no vale de Castro Laboreiro e veja quais casas estão disponíveis para venda.</p><p>Para mais informações sobre as casas à venda, consulte os detalhes de contato individuais.</p></div>';
+
+          document.getElementById('villageDescription_p').innerHTML = '<div class="animated slideInRight"><h3>A região da serra da Peneda</h3><p>A Serra da Peneda faz parte do Parque Nacional da Peneda-Gerês e é uma das áreas mais bem conservadas de todo o Parque. Na região de Castro Laboreiro, devido ao despovoamento da região, os densos carvalhais têm regenerado, contribuindo positivamente para a biodiversidade. Entre as espécies ameaçadas da região contam-se o lobo, o corço, a víbora, a águia-real, tartaranhões e garranos. A região está igualmente dotada de inúmeras lagoas naturais, assim como património construído de elevado interesse como é o caso do Castelo de Castro Laboreiro e de um conjunto megalítico no planalto de Castro que conta com mais de 60 Mamoas (antas), sendo o maior grupo deste tipo conhecido na Peninsula Ibérica.</p><p>Durante muitos anos na região castreja, persistiu um regime de transumância em que os pastores viviam nas regiões mais altas durante a estação do Verão em busca de pastos mais verdes para o seu gado, mudando-se durante o Inverno para as aldeias do vale do Rio Laboreiro para fugir aos longos nevões das zonas mais altas. Desta forma existem na região 3 tipos de aldeia: as aldeias de Verão ou Brandas, as aldeias de Inverno ou Inverneiras e os lugares fixos. Recentemente tem-se assistido ao abandono da pastorícia e também das Inverneiras, em parte devido às alterações climáticas e ao envelhecimento da população.</p><p>O abandono agrícola tem proporcionado a regeneração natural do Vale de Castro Laboreiro onde se localizam  20 aldeias inabitadas. Nos últimos 10 anos as habitações dessas aldeias têm sido alvo de recuperação para turismo.  Esta Bolsa de Casas Castrejas faz parte do projecto Reabilitar o Vale de Castro Laboreiro <a href="http://www.casaecarvalhal.blogspot.com" target="_blank">casaecarvalhal.blogspot.com</a></p><p>Selecione um marcador no mapa para obter informações mais detalhadas sobre as aldeias no vale de Castro Laboreiro e veja quais casas estão disponíveis para venda.</p><p>Para mais informações sobre as casas à venda, consulte os detalhes de contato individuais.</p></div>';
+          
+          document.getElementById('villageDetails_en').innerHTML = '';
+          document.getElementById('villageDetails_p').innerHTML = '';
+
           document.getElementById('villageMore').innerHTML = '';
           
         }
@@ -172,21 +196,42 @@
 
     <div class="container" id="village-content">
       <div id="villageTitle" class="animated slideInDown">
-        <h2>Bolsa de Casas Castrejas</h2>
+        <h2>Winter villages in the valley of Castro Laboreiro</h2>
       </div>
       <hr>
       <div class="row">
         <div class="col-lg-6 col-md-7">
           <div id="villageImage">
-            <img src="./img/casa.png" width="550px">
+            <h3>The Peneda Region</h3>
+            <p>The Sierra of Peneda is part of the National Park of Peneda Geres and its valley of Laboreiro is one of the best preserved areas within the park, due to the region longtime depopulation trend. In fact its dense oakforests have been regenerating bringing benefits to the local biodiversity. Among the threatened species of the region, one can observe the wolf, the deer, the garrano endemic wildhorse, the viper, the eagle and kites. The region hosts some of the prettiest lagoons of the park, and the impressive Castle of Castro Laboreiro. In the plateau of Castro Laboreiro one can find 60 Mamoas or dolmens, which is the largest megalithic monument in the Iberian Peninsula.</p>
+            <p>For several years the Castro people have adapted to local conditions by embracing a transhumant livelihood. In the past shepherds spent their Summertime in highest ground for the greener pastures, while in the Wintertime they were forced to move their cattle to lower grounds along the Laboreiro river valley to avoid the long snowy winters. Therefore the Castro people built houses in both sites.
+            This is the reason for the 3 different types of villages found in the region: the summer villages or Brandas; the winter villages or Inverneiras and the all year long villages or «lugar fixo» such as the town of Castro Laboreiro. Since there are now fewer shepherds in the region due to people´s aging (emigration has also played a role) and climate change has caused fewer snowy winters, people chose to live permanently in their summer villages, thus the winter villages are now uninhabited.</p>
+            <p>As grazing has decreased in the winter valley, nature has regenerated itself, around the 20 winter villages found in the valley. In the last 10 years, houses in these villages are being rebuilt for tourism. This database is a tool developed under the project Reviving the Castro Valley winter villages. More information on <a href="http://www.casaecarvalhal.blogspot.com" target="_blank">casaecarvalhal.blogspot.com</a>.</p>
+            <img src="./img/casa.png" alt="drawing casas castrejas" width="500px">
+            <p>Select a marker on the map to get more detailed information about the villages in the valley of Castro Laboreiro and see which houses are available for sale.</p> 
+            <p>For more information about the houses for sale, please see the individual contact details.</p>
           </div>
         </div>
         <div class="col-lg-6 col-md-5">
-          <div id="villageDescription">
-            <p>Aqui pode encontrar os imovéis disponíveis para venda no vale das Inverneiras de Castro Laboreiro em pleno Parque Nacional. Para mais informações por favor contactar os respectivos proprietários.</p>
-            <p>Selecione uma aldeia no mapa para obter informações mais detalhadas.</p>
-          </div>
-          <div id="villageDetails"></div>
+          <div class="flip">
+            <div id="language" class="card">
+              <div class="face front">
+                <div id="villageDescription_en">
+                  <h3>A região da serra da Peneda</h3>
+                  <p>A Serra da Peneda faz parte do Parque Nacional da Peneda-Gerês e é uma das áreas mais bem conservadas de todo o Parque. Na região de Castro Laboreiro, devido ao despovoamento da região, os densos carvalhais têm regenerado, contribuindo positivamente para a biodiversidade. Entre as espécies ameaçadas da região contam-se o lobo, o corço, a víbora, a águia-real, tartaranhões e garranos.  A região está igualmente dotada de inúmeras lagoas naturais, assim como património construído de elevado interesse como é o caso do Castelo de Castro Laboreiro e de um conjunto megalítico no planalto de Castro que conta com mais de 60 Mamoas (antas), sendo o maior grupo deste tipo conhecido na Peninsula Ibérica.</p>
+                  <p>Durante muitos anos na região castreja, persistiu um regime de transumância em que os pastores viviam nas regiões mais altas durante a estação do Verão em busca de pastos mais verdes para o seu gado, mudando-se durante o Inverno para as aldeias do vale do Rio Laboreiro para fugir aos longos nevões das zonas mais altas. Desta forma existem na região 3 tipos de aldeia: as aldeias de Verão ou Brandas, as aldeias de Inverno ou Inverneiras e os lugares fixos. Recentemente tem-se assistido ao abandono da pastorícia e também das Inverneiras, em parte devido às alterações climáticas e ao envelhecimento da população.</p>
+                  <p>O abandono agrícola tem proporcionado a regeneração natural do Vale de Castro Laboreiro onde se localizam  20 aldeias inabitadas. Nos últimos 10 anos as habitações dessas aldeias têm sido alvo de recuperação para turismo.  Esta Bolsa de Casas Castrejas faz parte do projecto Reabilitar o Vale de Castro Laboreiro <a href="http://www.casaecarvalhal.blogspot.com" target="_blank">casaecarvalhal.blogspot.com</a></p>
+                  <p>Selecione um marcador no mapa para obter informações mais detalhadas sobre as aldeias no vale de Castro Laboreiro e veja quais casas estão disponíveis para venda.</p> 
+                  <p>Para mais informações sobre as casas à venda, consulte os detalhes de contato individuais.</p>
+                </div>
+                <div id="villageDetails_en"></div>
+              </div>
+              <div class="face back">
+                <div id="villageDescription_p"></div>
+                <div id="villageDetails_p"></div>
+              </div>
+            </div>
+          </div>  
           <div id="villageMore"></div>
           <div id="thumbModal" class="modal">
             <span class="close">&times;</span>
@@ -221,7 +266,7 @@
         <div class="row">
           <div class="col-lg-12">Copyright © 2017
             <script>new Date().getFullYear()>2017&&document.write(" - "+new Date().getFullYear());</script> 
-            Bolsa de Casas Castrejas · <a href="mailto:minescabral@gmail.com" target="_blank">Contacto</a>
+            · Winter villages in the valley of Castro Laboreiro · <a href="mailto:minescabral@gmail.com" target="_blank">Contact</a> · <a href="mailto:christian.langer@idiv.de" target="_blank">webdesign</a>
           </div>
         </div>
       </footer>
@@ -234,6 +279,17 @@
     <script src="./vendor/bootstrap/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="./js/ie10-viewport-bug-workaround.js"></script>
-  
+    <script>
+    function flip() {
+      $('.card').toggleClass('flipped');
+      if ($('.card').hasClass('flipped')) {
+        $('.flag-icon').removeClass("flag-icon-pt");
+        $('.flag-icon').addClass("flag-icon-gb");
+      } else {
+        $('.flag-icon').removeClass("flag-icon-gb");
+        $('.flag-icon').addClass("flag-icon-pt");
+      }
+    };
+    </script>
   </body>
 </html>
