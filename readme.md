@@ -7,7 +7,7 @@ User selects a marker on the map and gets information in 2 different languages a
 Live example here: [http://home.uni-leipzig.de/idiv/casas-castrejas](http://home.uni-leipzig.de/idiv/casas-castrejas)
 
 
-![Screenshot](http://home.uni-leipzig.de/idiv/casas-castrejas/screen.png)
+![Screenshot](http://home.uni-leipzig.de/idiv/casas-castrejas/screen2.png)
 
 ### Built With
 
