@@ -1,13 +1,13 @@
 ## Web mapping application
 
-Interactive web map about the winter villages in the valley of Castro Laboreiro in Portugal.
+Interactive web mapping application about the winter villages in the valley of Castro Laboreiro in Portugal.
 
-User selects a marker on the map and gets information in 2 different languages about the villages of this region.
+User selects a village on the map and gets a detailed description incl. houses for sale of each village.
 
 Live example here: [http://home.uni-leipzig.de/idiv/casas-castrejas](http://home.uni-leipzig.de/idiv/casas-castrejas)
 
 
-![Screenshot](http://home.uni-leipzig.de/idiv/casas-castrejas/screen2.png)
+![Screenshot](http://home.uni-leipzig.de/idiv/casas-castrejas/screen3.png)
 
 ### Built With
 
