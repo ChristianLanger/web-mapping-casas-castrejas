@@ -59,7 +59,7 @@ var villageData = {
 	"COUNTRY": "Portugal", 
 	"IMAGE": ["joao-alvo-1.jpg","joao-alvo-2.jpg","joao-alvo-3.jpg","joao-alvo-4.jpg"], 
 	"DESCRIPTION_EN": "The village of Joao Alvo is close to an oak forest. It has 7 houses, among which lodging. The parking area is very limited.", 
-	"DESCRIPTION_P": "A aldeia de João Alvo está próxima de um carvalhal. Tem 7 casas situadas, inclusive alojamento turistico. O espaço de estacionamento é muito limitado.", 
+	"DESCRIPTION_P": "A aldeia de João Alvo está próxima de um carvalhal. Tem 7 casas, inclusive alojamento turistico. O espaço de estacionamento é muito limitado.", 
 	"MORE": "<p>No houses for sale available.</p><p>Nenhuma informação adicional disponível.</p>", 
 	"CF": "1", 
 	"HP": "0", 
