@@ -4,8 +4,6 @@ Interactive web mapping application about the winter villages in the valley of C
 
 User selects a village on the map and gets a detailed description incl. houses for sale of each village.
 
-Live example here: [http://home.uni-leipzig.de/idiv/casas-castrejas](http://home.uni-leipzig.de/idiv/casas-castrejas)
-
 
 ![Screenshot](http://home.uni-leipzig.de/idiv/casas-castrejas/screen3.png)
 
