@@ -52,15 +52,11 @@
       map = L.map('map', {
       }).setView([41.996440, -8.166501], 14);
       
-      basemap = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-        id: 'christianlanger.lin45e75',
-        accessToken: 'pk.eyJ1IjoiY2hyaXN0aWFubGFuZ2VyIiwiYSI6InJOMFAxS00ifQ.tt_H4EfT3ccRSPrkD0KKRQ'
-      }).addTo(map);
+      basemap = L.tileLayer('https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png').addTo(map);
 
       var villages;
       var selection;
       var selectedLayer;
-      
 
       // create village icons
       var villageIcon = L.AwesomeMarkers.icon({
